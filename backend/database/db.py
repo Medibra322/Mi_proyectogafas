@@ -3,10 +3,10 @@ import mysql.connector
 def connectdb():
     try:
         conn = mysql.connector.connect(
-            host='containers-us-west-151.railway.app',
-            port=6066,
+            host='containers-us-west-112.railway.app',
+            port=7521,
             user='root',
-            password='AjmT0AtsX6cBIvrqxnIC',
+            password='EVmAebrs7eckR1vJm8Dh',
             database='railway'
     )
         print('Connecting to railway')
