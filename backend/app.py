@@ -11,6 +11,7 @@ def hello():
 
 
 app.route('/gafas', methods=['GET'])(get_gafas)
+app.route('/gafas/<int:id_gafas>')(obtener_gafas_por_id)
 
 
 if __name__ == '__main__':
