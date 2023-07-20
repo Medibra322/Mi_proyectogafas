@@ -1,4 +1,4 @@
-from flask import jsonify, make_response
+from flask import jsonify, make_response, request
 from database.db import connectdb
 
 
@@ -32,3 +32,59 @@ def obtener_gafas_por_id(id_gafas):
         return jsonify(dato)
     else:
         return 'gafas no encontrado'
+    
+def add_gafas():
+    conn = connectdb()
+    cur = conn.cursor()
+    data = request.get_json()
+    
+    id_gafas = data['id_gafas']
+    nombre = data['nombre']
+    correo = data['correo']
+    celular = data['celular']
+    mensaje = data['mensaje']
+
+    cur.execute('INSERT INTO gafas (id_gafas, nombre, correo, celular, mensaje) VALUES (%s, %s, %s, %s, %s)', (id_gafas, nombre, correo, celular, mensaje))
+    conn.commit()
+    conn.close()
+    print('gafas creado')
+    return "gafas agregado"
+
+from flask import make_response, jsonify
+
+def del_gafas(id_gafas):
+    conn = connectdb()
+    cur = conn.cursor()
+    cur.execute('DELETE FROM gafas WHERE id_gafas = %s', (id_gafas,))
+    conn.commit()
+    conn.close()
+    print("gafas eliminado !!")
+    return "gafas eliminado !!"
+
+
+def update_gafas(id_gafas):
+    conn = connectdb()
+    cur = conn.cursor()
+
+    data = request.get_json()
+
+    if "nombre" in data:
+        nombre = data["nombre"]
+        cur.execute('UPDATE gafas SET nombre = %s WHERE id_gafas = %s', (nombre, id_gafas))
+
+    if "correo" in data:
+        correo = data["correo"]
+        cur.execute('UPDATE gafas SET correo = %s WHERE id_gafas = %s', (correo, id_gafas))
+
+    if "celular" in data:
+        celular = data["celular"]
+        cur.execute('UPDATE gafas SET celular = %s WHERE id_gafas = %s', (celular, id_gafas))
+        
+    if "mensaje" in data:
+        mensaje = data["mensaje"]
+        cur.execute('UPDATE gafas SET mensaje = %s WHERE id_gafas = %s', (mensaje, id_gafas))
+
+    conn.commit()
+    conn.close()
+
+    return 'Dato modificado'
