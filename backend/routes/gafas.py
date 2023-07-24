@@ -1,5 +1,8 @@
 from flask import jsonify, make_response, request
+# import mysql.connector
 from database.db import connectdb
+
+
 
 
 def get_gafas():
@@ -8,7 +11,7 @@ def get_gafas():
     try:
         cur.execute('SELECT * FROM gafas')
         datos_gafas = cur.fetchall()
-        data = [{'id_gafas': dato[1],'nombre': dato[2], 'correo': dato[3], 'celular': dato[4], 'mensaje': dato[5]} for dato in datos_gafas]
+        data = [{'id_gafas': dato[0],'nombre': dato[1], 'correo': dato[2], 'celular': dato[3], 'mensaje': dato[4]} for dato in datos_gafas]
         conn.close()
 
         response = make_response(jsonify(data))
@@ -27,28 +30,31 @@ def obtener_gafas_por_id(id_gafas):
     dato_gafas = cur.fetchone()
 
     if dato_gafas:
-        dato = {'id_gafas': dato_gafas[1],'nombre': dato_gafas[2], 'correo': dato_gafas[3], 'celular': dato_gafas[4], 'mensaje': dato_gafas[5]}
+        dato = {'id_gafas': dato_gafas[0],'nombre': dato_gafas[1], 'correo': dato_gafas[2], 'celular': dato_gafas[3], 'mensaje': dato_gafas[4]}
         conn.close()
         return jsonify(dato)
     else:
         return 'gafas no encontrado'
     
 def add_gafas():
-    conn = connectdb()
-    cur = conn.cursor()
-    data = request.get_json()
-    
-    id_gafas = data['id_gafas']
-    nombre = data['nombre']
-    correo = data['correo']
-    celular = data['celular']
-    mensaje = data['mensaje']
+    try:
+        conn = connectdb()
+        cur = conn.cursor()
+        data = request.get_json()
+        
+        nombre = data['nombre']
+        correo = data['correo']
+        celular = data['celular']
+        mensaje = data['mensaje']
 
-    cur.execute('INSERT INTO gafas (id_gafas, nombre, correo, celular, mensaje) VALUES (%s, %s, %s, %s, %s)', (id_gafas, nombre, correo, celular, mensaje))
-    conn.commit()
-    conn.close()
-    print('gafas creado')
-    return "gafas agregado"
+        cur.execute('INSERT INTO gafas (nombre, correo, celular, mensaje) VALUES (%s, %s, %s, %s)', (nombre, correo, celular, mensaje))
+        conn.commit()
+        print('gafas creado')
+        return jsonify({"message": "Mensaje recibido correctamente"}),200
+    except connectdb.Error as error:
+        return jsonify({'Error': str(error)}),500
+    finally:
+        conn.close()
 
 from flask import make_response, jsonify
 

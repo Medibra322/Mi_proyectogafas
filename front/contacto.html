@@ -33,15 +33,15 @@
   </header>
   
   <div class="container-contacto">
-  <form action="#" id="form" method="POST">
-    <h2>CONTACTO</h2>
-    <br>
-    <input type="text" name="cliente" id="nombre" placeholder="Ingrese su Nombre" onkeypress="return sololetras(event)" onpaste="return false" required>
-    <input type="text" name="correo" id="correo" placeholder="Ingrese su Correo" required>
-    <input type="text" name="celular" id="celular" placeholder="Ingrese su Celular" onkeypress="return solonumeros(event)" onpaste="return false" required>
-    <textarea name="mensaje" placeholder="Escriba su Mensaje" required></textarea>
-    <input type="submit" id="button-contacto" value="ENVIAR" class="button" onclick="validarCorreo(form.correo.value)">
-  </form>
+    <form >
+      <h2>CONTACTO</h2>
+      <br>
+      <input type="text" name="nombre" id="nombre" placeholder="Ingrese su Nombre" required>
+      <input type="text" name="correo" id="correo" placeholder="Ingrese su Correo" required>
+      <input type="text" name="celular" id="celular" placeholder="Ingrese su Celular" required>
+      <textarea name="mensaje" id="mensaje"placeholder="Escriba su Mensaje" required></textarea>
+      <button id="button-contacto" value="ENVIAR" class="button">ENVIAR </button>
+    </form>
   </div>
 
     <footer class="footer-section">
@@ -67,11 +67,11 @@
       </div>
     </footer>  
 
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <!-- <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <script  src="https://code.jquery.com/jquery-3.4.1.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js"></script>
-    <script  src="assets/js/scripts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js"></script> -->
+    <!-- <script  src="assets/js/scripts.js"></script> -->
     <script  src="assets/js/contacto.js"></script>
 </body>
 </html>

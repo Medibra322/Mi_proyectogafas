@@ -1,32 +1,46 @@
 //Envio Formulario Contacto
-    emailjs.init('user_hx2rYaxbexZ0qlT8bs771')
-    const btn = document.getElementById('button-contacto');
+   
+const btn = document.getElementById('button-contacto');
+const nombre = document.getElementById('nombre');
+const correo = document.getElementById('correo');
+const celular = document.getElementById('celular');
+const mensaje = document.getElementById('mensaje');
 
-    document.getElementById('form')
-    .addEventListener('submit', function(event) {
-    event.preventDefault();
+btn.addEventListener("click", enviarDatos);
 
+function enviarDatos(event) {
+    event.preventDefault(); // Prevenir el comportamiento predeterminado del formulario
+
+
+    const datos = {
+        nombre: nombre.value,
+        correo: correo.value,
+        celular: celular.value,
+        mensaje: mensaje.value
+    };
+
+    // Convertir el objeto a formato JSON
+    const datosJSON = JSON.stringify(datos);
+    console.log(datosJSON);
     
-
-    const serviceID = 'default_service';
-    const templateID = 'template_y735lib';
-
-    emailjs.sendForm(serviceID, templateID, this)
-        .then(() => {
-
-            Swal.fire({
-                icon: 'success',
-                title: 'Se envió el mensaje',
-                timer: 2500,
-                showConfirmButton: false
-              })
-
-        window.location = "contacto.html";
-
-        }, (err) => {
-        btn.value = 'Send Email';
-        alert(JSON.stringify(err));
-        });
-    });
-
-
+    const url='http://127.0.0.1:5000'
+     return fetch(url+'/gafas', {
+        method: 'POST',
+        headers:{
+            'Content-Type': 'application/json'
+        },
+        body: datosJSON
+     })
+     .then(response => response.json())
+     .then(data => {
+       console.log(data);
+       // Borrar los campos después de enviar el formulario
+       nombre.value = '';
+       correo.value = '';
+       celular.value = '';
+       mensaje.value = '';
+     })
+     .catch(error => {
+       console.error('Error al crear el worker:', error);
+     });
+}
